@@ -266,6 +266,163 @@ const cityDataset = [
     }
 ];
 
+// YouTube Video Dataset
+const videoDataset = [
+    {
+        id: "E6588DlZW-c",
+        title: "Why Choose GlobalLingua Academy",
+        desc: "Overview of the academy structure, teaching methodology, and measurable outcomes. Focus on efficiency, structured progression, and multilingual competence.",
+        status: "Academy"
+    },
+    {
+        id: "wubFLbRdqzk",
+        title: "How to Learn a Language Correctly",
+        desc: "Explanation of cognitive learning phases: input, repetition, active recall, and real-world usage. Eliminates ineffective memorization patterns.",
+        status: "Methodology"
+    },
+    {
+        id: "0Y34Wcm_qdc",
+        title: "Vocabulary Acquisition System",
+        desc: "Systematic vocabulary building using spaced repetition, contextual usage, and frequency-based prioritization.",
+        status: "Vocabulary"
+    },
+    {
+        id: "eVFzbxmKNUw",
+        title: "Grammar Without Overload",
+        desc: "Focused grammar training based on patterns, not rules memorization. Applied through speaking and sentence construction.",
+        status: "Grammar"
+    },
+    {
+        id: "_nWMP68DqHE",
+        title: "Speaking Confidence Development",
+        desc: "Reduction of speaking barrier through controlled practice loops and real conversation simulation.",
+        status: "Speaking"
+    },
+    {
+        id: "AKbFGGAOEoU",
+        title: "Learning Phases Explained",
+        desc: "Breakdown of beginner → intermediate → advanced transition. Clear expectations and milestones at each stage.",
+        status: "Learning Phases"
+    },
+    {
+        id: "BJWmWP4gofw",
+        title: "Common Mistakes in Language Learning",
+        desc: "Analysis of typical learner errors: passive learning, lack of repetition, and absence of speaking practice.",
+        status: "Mistakes"
+    },
+    {
+        id: "iHoLc0cCZU8",
+        title: "History of GlobalLingua Academy",
+        desc: "Foundation, development, and expansion strategy of the academy. Positioning in multilingual education markets.",
+        status: "History"
+    },
+    {
+        id: "dnOu6ysy7NU",
+        title: "Student Success Cases",
+        desc: "Case studies showing transition from beginner to professional communication level.",
+        status: "Results"
+    },
+    {
+        id: "E6588DlZW-c",
+        title: "How to Book a Consultation",
+        desc: "Step-by-step explanation of consultation process, evaluation, and personalized learning path setup.",
+        status: "Consultation"
+    }
+];
+
+// Render YouTube Video Gallery
+function renderVideoGallery(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const tabsContainer = container.querySelector("#videoTabsContainer");
+    const mainIframe = container.querySelector("#mainVideo");
+    const mainTitle = container.querySelector("#videoTitle");
+    const mainDesc = container.querySelector("#videoDescription");
+    const mainStatus = container.querySelector("#videoStatusMain");
+
+    if (!tabsContainer) return;
+
+    const totalVideos = videoDataset.length;
+
+    // Render video tabs
+    tabsContainer.innerHTML = videoDataset.map((video, index) => `
+    <div class="video-tab ${index === 0 ? 'active' : ''}" data-video-index="${index}">
+      <div class="video-tab-inner">
+        <figure>
+          <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" 
+               alt="${video.title}"
+               loading="lazy">
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="29.25" height="29.25" viewBox="0 0 29.25 29.25">
+              <path id="Icon_ionic-ios-play-circle" data-name="Icon ionic-ios-play-circle" 
+                    d="M18,3.375A14.625,14.625,0,1,0,32.625,18,14.625,14.625,0,0,0,18,3.375Zm5.892,14.9L14.245,24.11a.313.313,0,0,1-.471-.274V12.164a.312.312,0,0,1,.471-.274l9.647,5.836a.322.322,0,0,1,0,.548Z" 
+                    transform="translate(-3.375 -3.375)" fill="#8BBD47"></path>
+            </svg>
+          </span>
+        </figure>
+        <div class="video-tab-desc">
+          <div class="video-status">${video.status || `Video ${index + 1} of ${totalVideos}`}</div>
+          <div class="video-title">${video.title}</div>
+          <div class="video-desc">${video.desc}</div>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+    // Function to load a video
+    function loadVideo(index, autoplay = false) {
+        const video = videoDataset[index];
+        if (!video) return;
+
+        const autoplayParam = autoplay ? '?autoplay=1' : '';
+        mainIframe.src = `https://www.youtube.com/embed/${video.id}${autoplayParam}`;
+        mainTitle.textContent = video.title;
+        mainDesc.textContent = video.desc;
+        mainStatus.textContent = `Playing video ${index + 1} of ${totalVideos}`;
+
+        // Update active state in tabs
+        document.querySelectorAll('.video-tab').forEach((tab, i) => {
+            if (i === index) {
+                tab.classList.add('active');
+                const statusDiv = tab.querySelector('.video-status');
+                if (statusDiv && !video.status) {
+                    statusDiv.textContent = `Playing video ${index + 1} of ${totalVideos}`;
+                }
+            } else {
+                tab.classList.remove('active');
+                const statusDiv = tab.querySelector('.video-status');
+                const tabVideo = videoDataset[i];
+                if (statusDiv && tabVideo && !tabVideo.status) {
+                    statusDiv.textContent = `Video ${i + 1} of ${totalVideos}`;
+                }
+            }
+        });
+    }
+
+    // Load first video
+    loadVideo(0, false);
+
+    // Add click handlers to tabs
+    const tabs = tabsContainer.querySelectorAll('.video-tab');
+    tabs.forEach((tab, idx) => {
+        tab.addEventListener('click', () => {
+            loadVideo(idx, true);
+        });
+    });
+}
+
+// Initialize video gallery after component loads
+function initVideoGallery() {
+    const videoContainer = document.getElementById('youtube');
+    if (videoContainer && videoContainer.querySelector('#videoTabsContainer')) {
+        renderVideoGallery('youtube');
+    } else {
+        // Retry if component not yet loaded
+        setTimeout(initVideoGallery, 100);
+    }
+}
+
 async function loadComponent(elementId, filePath) {
     try {
         const response = await fetch(filePath);
@@ -294,12 +451,14 @@ async function loadAllComponents() {
     await loadComponent('inspiration', 'components/inspiration.html');
     await loadComponent('testimonials', 'components/testimonials.html');
     await loadComponent('contact', 'components/contact.html');
+    await loadComponent('youtube', 'components/youtubeShortsAI.html');
     await loadComponent('footer', 'components/footer.html');
 
     // Initialize translations and form after components are loaded
     initializeApp();
     // Initialize both carousels after components are loaded
     initCityCarousels();
+    initVideoGallery();
 }
 
 // All your translations object here (copy from your HTML)
@@ -410,7 +569,7 @@ function renderCarousel(group, containerId) {
     function update() {
         const translateX = index * getCardWidth();
         track.style.transform = `translateX(-${translateX}px)`;
-        
+
         // Disable/enable buttons based on position
         if (prevBtn) prevBtn.disabled = (index === 0);
         if (nextBtn) nextBtn.disabled = (index >= getMaxIndex());
@@ -422,7 +581,7 @@ function renderCarousel(group, containerId) {
             update();
         });
     }
-    
+
     if (nextBtn) {
         nextBtn.addEventListener("click", () => {
             index = Math.min(index + 1, getMaxIndex());
