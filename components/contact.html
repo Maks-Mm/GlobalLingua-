@@ -1,43 +1,84 @@
-<div class="container" id="contact">
-    <div class="manager-card">
-        <img src="/public/meanMeneger.png" alt="Valeriya Prokopechko" class="manager-img" onerror="this.src='https://via.placeholder.com/140?text=VP'">
-        <div class="manager-info">
-            <h3>Valeriya Prokopechko</h3>
-            <p class="manager-role" data-i18n="manager-role">Consulting Manager & Language Consultant</p>
-            <div class="manager-contact-line"><i class="fas fa-phone-alt"></i> <span>+380 66 267 9920</span></div>
-            <p style="font-size: 0.9rem; margin: 8px 0;" data-i18n="manager-hours">📅 Personal consultations: Mon–Fri 9:00–18:00</p>
-            <p style="font-size: 0.95rem; margin-bottom: 12px;" data-i18n="manager-direct">✨ Contact me for language consulting & career coaching.</p>
-            <a href="https://wa.me/380662679920" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Consulting</a>
+<div class="container">
+
+    <div class="contact-wrapper">
+
+        <div class="manager-card">
+            <img src="https://img.freepik.com/free-photo/young-businesswoman-smiling-camera_74855-1682.jpg?semt=ais_hybrid&w=740&q=80"
+                 class="manager-img"
+                 onerror="this.src='https://via.placeholder.com/140?text=VP'">
+
+            <div class="manager-info">
+                <h3>Valeriya Prokopechko</h3>
+
+                <div class="manager-contact-line">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+380 66 267 9920</span>
+                </div>
+
+                <p class="manager-hours">
+                    Personal consultations: Mon–Fri 9:00–18:00
+                </p>
+
+                <p class="manager-direct">
+                    Contact for language consulting & career coaching
+                </p>
+
+                <a href="https://wa.me/380662679920" class="whatsapp-btn">
+                    WhatsApp Consulting
+                </a>
+            </div>
+        </div>
+
+        <div class="contact-form">
+
+          <h2 class="contact-title">
+          📩 Book your appointment
+          </h2>
+            <form id="appointmentForm">
+
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name *">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" placeholder="Email Address *">
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" placeholder="Phone (WhatsApp) *">
+                </div>
+
+                <div class="form-group">
+    <select>
+        <option>🇩🇪 German</option>
+        <option>🇵🇱 Polish</option>
+        <option>🇬🇧 English</option>
+        <option>🇷🇺 Russian</option>
+        <option>🇺🇦 Ukrainian</option>
+    </select>
+</div>
+
+                <div class="form-group">
+                    <textarea rows="3" placeholder="Preferred appointment"></textarea>
+                </div>
+
+                <button type="submit" class="btn">
+                    Request appointment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-section">
+        <div class="box">
+            <iframe src="https://www.google.com/maps?q=Europaplatz%20Berlin&output=embed"></iframe>
+        </div>
+        <div class="box">
+            <img src="public/Gemini_Generated_Image_zefx0uzefx0uzefx.png">
         </div>
     </div>
 
-    <h2 class="section-title"><i class="fas fa-envelope"></i> <span data-i18n="contact-title">📩 Book your appointment</span></h2>
-    <div class="contact-form">
-        <form id="appointmentForm">
-            <div class="form-group"><input type="text" id="name" placeholder="Full Name *" required data-i18n-placeholder="form-name"></div>
-            <div class="form-group"><input type="email" id="email" placeholder="Email Address *" required data-i18n-placeholder="form-email"></div>
-            <div class="form-group"><input type="tel" id="phone" placeholder="Phone (WhatsApp) *" required data-i18n-placeholder="form-phone"></div>
-            <div class="form-group">
-                <select id="languageInterest">
-                    <option value="german">🇩🇪 German</option>
-                    <option value="polish">🇵🇱 Polish</option>
-                    <option value="english">🇬🇧 English</option>
-                    <option value="russian">🇷🇺 Russian</option>
-                    <option value="ukrainian">🇺🇦 Ukrainian</option>
-                </select>
-            </div>
-            <div class="form-group"><textarea id="message" rows="3" placeholder="Your message / preferred appointment (e.g., Monday 15:00)" data-i18n-placeholder="form-message"></textarea></div>
-            <button type="submit" class="btn"><i class="fas fa-calendar-check"></i> <span data-i18n="submit-btn">Request appointment</span></button>
-            <p id="formFeedback" style="margin-top:16px; font-size:0.9rem;"></p>
-        </form>
-        <div class="social-icons">
-            <a href="https://wa.me/380662679920" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="#"><i class="fab fa-telegram"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="mailto:valeriya@globallingua.com"><i class="fas fa-envelope"></i></a>
-            <a href="#"><i class="fab fa-viber"></i></a>
-        </div>
-        <p style="text-align:center; margin-top:20px;"><i class="fas fa-headset"></i> Direct consulting: Valeriya Prokopechko – +380 66 267 9920 (WhatsApp/Telegram/Viber)</p>
-    </div>
 </div>
