@@ -55,7 +55,7 @@ const cityDataset = [
         country: "Ireland",
         city: "Dublin",
         flag: "🇮🇪",
-        image: "public/dublin.jpg",
+        image: "public/Dublin.jpg",
         landmarkTitle: "Trinity College & Temple Bar",
         landmarkDesc: "English-speaking EU tech hub.",
         tag: "Guinness Storehouse"
@@ -65,7 +65,7 @@ const cityDataset = [
         country: "Austria",
         city: "Vienna",
         flag: "🇦🇹",
-        image: "public/vienna.jpg",
+        image: "public/Vienna.jpg",
         landmarkTitle: "Schönbrunn Palace",
         landmarkDesc: "Habsburg imperial capital.",
         tag: "Ringstrasse"
@@ -75,7 +75,7 @@ const cityDataset = [
         country: "Switzerland",
         city: "Bern",
         flag: "🇨🇭",
-        image: "public/bern.jpg",
+        image: "public/Bern.jpg",
         landmarkTitle: "Old Town & Federal Palace",
         landmarkDesc: "Administrative capital.",
         tag: "Zytglogge"
@@ -85,7 +85,7 @@ const cityDataset = [
         country: "Belgium",
         city: "Brussels",
         flag: "🇧🇪",
-        image: "public/brussels.jpg",
+        image: "public/Brussels.jpg",
         landmarkTitle: "Grand Place & EU Institutions",
         landmarkDesc: "Multilingual administrative hub with German-speaking minority region.",
         tag: "Atomium"
@@ -126,7 +126,7 @@ const cityDataset = [
         country: "New Zealand",
         city: "Wellington",
         flag: "🇳🇿",
-        image: "public/wellington.jpg",
+        image: "public/Wellington.jpg",
         landmarkTitle: "Te Papa Museum",
         landmarkDesc: "Cultural and political center.",
         tag: "Cuba Street"
@@ -157,7 +157,7 @@ const cityDataset = [
         country: "Kazakhstan",
         city: "Astana",
         flag: "🇰🇿",
-        image: "public/astana.jpg",
+        image: "public/Astana.jpg",
         landmarkTitle: "Bayterek Tower",
         landmarkDesc: "Modern planned capital.",
         tag: "Nur Astana Mosque"
@@ -178,7 +178,7 @@ const cityDataset = [
         country: "Uzbekistan",
         city: "Tashkent",
         flag: "🇺🇿",
-        image: "public/tashkent.jpg",
+        image: "public/Tashkent.jpg",
         landmarkTitle: "Independence Square",
         landmarkDesc: "Russian widely used in business and administration.",
         tag: "Amir Timur Square"
@@ -198,7 +198,7 @@ const cityDataset = [
         country: "Tajikistan",
         city: "Dushanbe",
         flag: "🇹🇯",
-        image: "public/dushanbe.jpg",
+        image: "public/Dushanbe.jpg",
         landmarkTitle: "Rudaki Park",
         landmarkDesc: "Russian remains functional in administration.",
         tag: "National Museum"
@@ -228,7 +228,7 @@ const cityDataset = [
         country: "Georgia",
         city: "Tbilisi",
         flag: "🇬🇪",
-        image: "public/tbilisi.jpg",
+        image: "public/Tbilisi.jpg",
         landmarkTitle: "Old Town & Narikala Fortress",
         landmarkDesc: "Residual Russian usage in trade and older context.",
         tag: "Rustaveli Avenue"
@@ -239,7 +239,7 @@ const cityDataset = [
         country: "Latvia",
         city: "Riga",
         flag: "🇱🇻",
-        image: "public/riga.jpg",
+        image: "public/Riga.jpg",
         landmarkTitle: "Old Town",
         landmarkDesc: "Large Russian-speaking minority presence.",
         tag: "Freedom Monument"
@@ -249,7 +249,7 @@ const cityDataset = [
         country: "Lithuania",
         city: "Vilnius",
         flag: "🇱🇹",
-        image: "public/vilnius.jpg",
+        image: "public/Vilnius.jpg",
         landmarkTitle: "Old Town & Gediminas Tower",
         landmarkDesc: "Limited Russian-speaking communities.",
         tag: "Cathedral Square"
