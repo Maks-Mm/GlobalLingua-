@@ -113,6 +113,7 @@ header {
     text-align: center;
 }
 
+
 .hero-badge {
     background: rgba(255, 255, 255, 0.12);
     padding: 8px 20px;
@@ -156,6 +157,34 @@ header {
     opacity: 0.9;
     margin-top: 5px;
     letter-spacing: 0.3px;
+}
+
+.contact-hotline {
+    background: #ffffff;
+    color: #0f172a;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 28px;
+    border-radius: 60px;
+
+    font-weight: 700;
+    font-size: 1.1rem;
+
+    margin-top: 25px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+
+    flex-wrap: wrap;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+.contact-hotline i {
+    color: #25D366;
+    font-size: 1.3rem;
 }
 
 
