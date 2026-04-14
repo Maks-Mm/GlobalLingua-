@@ -14,52 +14,34 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    socketTimeout: 15000,
+    connectionTimeout: 10000
+});
+
 app.post("/api/contact", async (req, res) => {
     try {
-        const emailUser = (process.env.EMAIL_USER || "").trim();
-        const emailPass = (process.env.EMAIL_PASS || "").replace(/\s/g, "");
-
-        console.log("EMAIL_USER:", process.env.EMAIL_USER);
-        console.log("EMAIL_PASS length:", process.env.EMAIL_PASS?.length);
-
-        if (!emailUser || !emailPass) {
-            return res.status(500).json({ message: "Missing email credentials" });
-        }
-
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 15000
-        });
-
         const info = await transporter.sendMail({
-            from: `"GlobalLingua Academy" <${emailUser}>`,
-            to: emailUser,
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
             replyTo: req.body.email,
             subject: "New Appointment Request",
-            text: `Name: ${req.body.fullName}
-Email: ${req.body.email}
-Phone: ${req.body.phone}
-Language: ${req.body.language}
-Appointment: ${req.body.appointment}`
+            text: JSON.stringify(req.body)
         });
 
         return res.json({ ok: true, messageId: info.messageId });
-
     } catch (err) {
-        console.error(err);
-        console.error("FULL ERROR:", err);
+        console.error("MAIL ERROR:", err);
         return res.status(500).json({ ok: false, error: err.message });
     }
 });
-
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
