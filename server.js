@@ -2,13 +2,17 @@ import express from "express";
 import nodemailer from "nodemailer";
 import path from "path";
 import dotenv from "dotenv";
-import open from "open";
+import { fileURLToPath } from "url";
+
 dotenv.config();
 
 const app = express();
 
-app.use(express.static("public")); // serve frontend
-app.use(express.json({ limit: "1mb" }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 app.post("/api/contact", async (req, res) => {
     const { fullName, email, phone, language, appointment } = req.body;
@@ -24,7 +28,6 @@ app.post("/api/contact", async (req, res) => {
                 rejectUnauthorized: false
             }
         });
-
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: "Languages0909@gmail.com",
@@ -48,11 +51,10 @@ Appointment: ${appointment}
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
-
-    if (process.env.NODE_ENV !== "production") {
-        open(`http://localhost:${PORT}`);
-    }
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
-//http://localhost:3000
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
