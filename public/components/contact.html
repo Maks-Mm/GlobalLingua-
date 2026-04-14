@@ -1,0 +1,87 @@
+<div class="container">
+
+    <div class="contact-wrapper">
+
+        <div class="manager-card">
+            <img src="https://img.freepik.com/free-photo/young-businesswoman-smiling-camera_74855-1682.jpg?semt=ais_hybrid&w=740&q=80"
+                 class="manager-img"
+                 onerror="this.src='https://via.placeholder.com/140?text=VP'">
+
+            <div class="manager-info">
+                <h3 data-i18n="manager.name">Valeriya Prokopechko</h3>
+
+                <div class="manager-contact-line">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+380 66 267 9920</span>
+                </div>
+
+                <p class="manager-hours" data-i18n="manager-hours">
+                    Personal consultations: Mon–Fri 9:00–18:00
+                </p>
+
+                <p class="manager-direct" data-i18n="manager-direct">
+                    Contact for language consulting & career coaching
+                </p>
+
+                <a href="https://wa.me/380662679920" class="whatsapp-btn">
+                    WhatsApp Consulting
+                </a>
+            </div>
+        </div>
+
+        <div class="contact-form">
+
+            <h2 class="contact-title" data-i18n="contact-title">
+                📩 Book your appointment
+            </h2>
+
+            <form id="appointmentForm">
+
+                <div class="form-group">
+                    <input type="text" name="fullName" data-i18n-placeholder="form.full_name" placeholder="Full name *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Phone (WhatsApp) *" required>
+                </div>
+
+                <div class="form-group">
+                    <select name="language">
+                        <option value="de">🇩🇪 German</option>
+                        <option value="pl">🇵🇱 Polish</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="ru">🇷🇺 Russian</option>
+                        <option value="ua">🇺🇦 Ukrainian</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="appointment" rows="3" placeholder="Preferred appointment"></textarea>
+                </div>
+
+                <button type="submit" class="btn" data-i18n="submit-btn">
+                    Request appointment
+                </button>
+
+            </form>
+
+            <div id="formFeedback" class="form-feedback"></div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-section">
+        <div class="box">
+            <iframe src="https://www.google.com/maps?q=Europaplatz%20Berlin&output=embed"></iframe>
+        </div>
+        <div class="box">
+            <img src="public/Gemini_Generated_Image_zefx0uzefx0uzefx.png" alt="Academy image">
+        </div>
+    </div>
+
+</div>

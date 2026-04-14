@@ -1,0 +1,16 @@
+{
+  "name": "globallingua",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.8",
+    "open": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/open": "^6.1.0"
+  }
+}
