@@ -17,7 +17,7 @@ app.use(express.static(path.join(process.cwd(), "public")));
 app.post("/api/contact", async (req, res) => {
     try {
         const emailUser = (process.env.EMAIL_USER || "").trim();
-        const emailPass = process.env.EMAIL_PASS;
+        const emailPass = (process.env.EMAIL_PASS || "").replace(/\s/g, "");
 
         console.log("EMAIL_USER:", process.env.EMAIL_USER);
         console.log("EMAIL_PASS length:", process.env.EMAIL_PASS?.length);
@@ -27,14 +27,17 @@ app.post("/api/contact", async (req, res) => {
         }
 
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
-            }
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 15000
         });
-
-        await transporter.verify();
 
         const info = await transporter.sendMail({
             from: `"GlobalLingua Academy" <${emailUser}>`,
