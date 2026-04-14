@@ -15,46 +15,39 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.post("/api/contact", async (req, res) => {
-    const { fullName, email, phone, language, appointment } = req.body;
-
     try {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
-            },
-            tls: {
-                rejectUnauthorized: false
             }
         });
+
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: "Languages0909@gmail.com",
             subject: "New Appointment Request",
-            text: `
-Name: ${fullName}
-Email: ${email}
-Phone: ${phone}
-Language: ${language}
-Appointment: ${appointment}
-`
+            text: `Name: ${req.body.fullName}
+Email: ${req.body.email}
+Phone: ${req.body.phone}
+Language: ${req.body.language}
+Appointment: ${req.body.appointment}`
         });
 
-        res.json({ message: "Sent" });
-
+        return res.json({ message: "Sent" });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Email failed" });
+        return res.status(500).json({ message: "Email failed" });
     }
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    console.log(`Server running on ${PORT}`);
 });
