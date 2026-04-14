@@ -12,27 +12,33 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(process.cwd(), "public")));
 
 app.post("/api/contact", async (req, res) => {
     try {
+        const emailUser = (process.env.EMAIL_USER || "").trim();
+        const emailPass = (process.env.EMAIL_PASS || "").replace(/\s/g, "");
+
+        if (!emailUser || !emailPass) {
+            return res.status(500).json({ message: "Missing email credentials" });
+        }
+
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            tls: {
-                minVersion: "TLSv1.2",
-                rejectUnauthorized: false  // Add this line to bypass certificate verification
+                user: emailUser,
+                pass: emailPass
             }
         });
 
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: "Languages0909@gmail.com",
+        await transporter.verify();
+
+        const info = await transporter.sendMail({
+            from: `"GlobalLingua Academy" <${emailUser}>`,
+            to: emailUser,
+            replyTo: req.body.email,
             subject: "New Appointment Request",
             text: `Name: ${req.body.fullName}
 Email: ${req.body.email}
@@ -41,10 +47,11 @@ Language: ${req.body.language}
 Appointment: ${req.body.appointment}`
         });
 
-        return res.json({ message: "Sent" });
+        return res.json({ ok: true, messageId: info.messageId });
+
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Email failed: " + err.message });
+        return res.status(500).json({ ok: false });
     }
 });
 
@@ -55,5 +62,5 @@ app.get("*", (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
