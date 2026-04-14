@@ -23,6 +23,10 @@ app.post("/api/contact", async (req, res) => {
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
+            },
+            tls: {
+                minVersion: "TLSv1.2",
+                rejectUnauthorized: false  // Add this line to bypass certificate verification
             }
         });
 
@@ -40,7 +44,7 @@ Appointment: ${req.body.appointment}`
         return res.json({ message: "Sent" });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Email failed" });
+        return res.status(500).json({ message: "Email failed: " + err.message });
     }
 });
 
