@@ -755,8 +755,9 @@ function initializeApp() {
 
                 const feedback = document.getElementById("formFeedback");
                 if (feedback) {
-                     feedback.innerHTML = "✅ " + (result.message || "Request sent successfully! We will contact you within 24h.");
+                     feedback.innerHTML = "❌ " + (result.error || "Request failed");
                 }
+                feedback.innerHTML = "✅ Request sent successfully!";
                 form.reset();
 
             } catch (err) {

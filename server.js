@@ -19,17 +19,18 @@ app.post("/api/contact", async (req, res) => {
         const emailUser = (process.env.EMAIL_USER || "").trim();
         const emailPass = process.env.EMAIL_PASS;
 
+        console.log("EMAIL_USER:", process.env.EMAIL_USER);
+        console.log("EMAIL_PASS length:", process.env.EMAIL_PASS?.length);
+
         if (!emailUser || !emailPass) {
             return res.status(500).json({ message: "Missing email credentials" });
         }
 
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
+            service: 'gmail',
             auth: {
-                user: emailUser,
-                pass: emailPass
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
@@ -51,7 +52,8 @@ Appointment: ${req.body.appointment}`
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ ok: false });
+        console.error("FULL ERROR:", err);
+        return res.status(500).json({ ok: false, error: err.message });
     }
 });
 
