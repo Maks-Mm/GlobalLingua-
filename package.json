@@ -7,10 +7,11 @@
     "build": "echo '✅ Build complete! Your static files are ready.' && exit 0"
   },
   "dependencies": {
+    "aos": "^2.3.4",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "nodemailer": "^6.9.7",
-    "dotenv": "^16.3.1",
-    "aos": "^2.3.4",
+    "resend": "^6.11.0",
     "toastify-js": "^1.12.0"
   }
 }
