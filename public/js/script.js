@@ -721,58 +721,58 @@ function initializeApp() {
     const savedLang = localStorage.getItem("preferredLanguage") || "en";
     setLanguage(savedLang);
 
-    // Set up form handler with toast notifications
+    // Set up form handler with proper error handling
     const form = document.getElementById("appointmentForm");
     if (form) {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const data = {
-                fullName: form.fullName.value,
-                email: form.email.value,
-                phone: form.phone.value,
-                language: form.language.value,
-                appointment: form.appointment.value
+                fullName: form.fullName?.value || '',
+                email: form.email?.value || '',
+                phone: form.phone?.value || '',
+                language: form.language?.value || 'en',
+                appointment: form.appointment?.value || ''
             };
 
-            // Basic validation with toast notifications
+            // Basic validation
             if (!data.fullName) {
                 if (window.toastManager) {
                     window.toastManager.warning('Missing Information', 'Please enter your full name');
                 } else {
                     alert('Please enter your full name');
                 }
-                form.fullName.focus();
+                form.fullName?.focus();
                 return;
             }
-
+            
             if (!data.email) {
                 if (window.toastManager) {
                     window.toastManager.warning('Missing Information', 'Please enter your email address');
                 } else {
                     alert('Please enter your email address');
                 }
-                form.email.focus();
+                form.email?.focus();
                 return;
             }
-
+            
             if (!data.email.includes('@') || !data.email.includes('.')) {
                 if (window.toastManager) {
                     window.toastManager.error('Invalid Email', 'Please enter a valid email address');
                 } else {
                     alert('Please enter a valid email address');
                 }
-                form.email.focus();
+                form.email?.focus();
                 return;
             }
-
+            
             if (!data.phone) {
                 if (window.toastManager) {
                     window.toastManager.warning('Missing Information', 'Please enter your phone number');
                 } else {
                     alert('Please enter your phone number');
                 }
-                form.phone.focus();
+                form.phone?.focus();
                 return;
             }
 
@@ -783,7 +783,7 @@ function initializeApp() {
             }
 
             try {
-                const res = await fetch("/api/contact", {
+                const response = await fetch("/api/contact", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -791,15 +791,27 @@ function initializeApp() {
                     body: JSON.stringify(data)
                 });
 
-                const result = await res.json();
-
                 // Close loading toast
                 if (loadingToastId && window.toastManager) {
                     window.toastManager.closeToast(loadingToastId);
                 }
 
-                if (res.ok) {
-                    // Success toast
+                // Check if response is ok
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                // Try to parse JSON
+                let result;
+                const text = await response.text();
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    console.error("JSON parse error:", text);
+                    throw new Error("Invalid response from server");
+                }
+
+                if (result.success === true) {
                     if (window.toastManager) {
                         window.toastManager.success(
                             '✓ Appointment Requested!',
@@ -811,35 +823,29 @@ function initializeApp() {
                     }
                     form.reset();
                 } else {
-                    // Error toast
-                    if (window.toastManager) {
-                        window.toastManager.error('Submission Failed', result.error || 'Unable to send request. Please try again.');
-                    } else {
-                        alert('Error: ' + (result.error || 'Request failed'));
-                    }
+                    throw new Error(result.message || "Request failed");
                 }
 
             } catch (err) {
-                console.error(err);
-                // Close loading toast if exists
+                console.error("Form submission error:", err);
+                
                 if (loadingToastId && window.toastManager) {
                     window.toastManager.closeToast(loadingToastId);
                 }
-
-                // Network error toast
+                
                 if (window.toastManager) {
                     window.toastManager.error(
-                        'Network Error',
-                        'Connection issue. Please try again or contact us directly via WhatsApp: +380 66 267 9920',
-                        8000
+                        'Submission Error',
+                        err.message || 'Unable to send request. Please try again or contact us via WhatsApp.',
+                        6000
                     );
                 } else {
-                    alert('Error sending request. Please try again or contact us directly via WhatsApp.');
+                    alert('Error sending request. Please try again.');
                 }
             }
         });
     }
-
+    
     // Welcome toast message
     setTimeout(() => {
         if (window.toastManager) {
