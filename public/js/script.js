@@ -330,6 +330,17 @@ const videoDataset = [
     }
 ];
 
+
+// Initialize AOS
+AOS.init({
+    duration: 800,        // Animation duration in ms
+    once: false,          // Whether animation should happen only once
+    offset: 100,          // Offset (in px) from the original trigger point
+    delay: 0,             // Delay in ms
+    easing: 'ease-in-out' // Easing function
+});
+
+
 // Render YouTube Video Gallery
 function renderVideoGallery(containerId) {
     const container = document.getElementById(containerId);
