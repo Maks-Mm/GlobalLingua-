@@ -721,7 +721,7 @@ function initializeApp() {
     const savedLang = localStorage.getItem("preferredLanguage") || "en";
     setLanguage(savedLang);
 
-    // Set up form handler - using name attributes, not getElementById
+    // Set up form handler with toast notifications
     const form = document.getElementById("appointmentForm");
     if (form) {
         form.addEventListener("submit", async (e) => {
@@ -735,11 +735,51 @@ function initializeApp() {
                 appointment: form.appointment.value
             };
 
-            // Basic validation
-            if (!data.fullName || !data.email || !data.phone) {
-                const feedback = document.getElementById("formFeedback");
-                if (feedback) feedback.innerHTML = "❌ Please fill in all required fields.";
+            // Basic validation with toast notifications
+            if (!data.fullName) {
+                if (window.toastManager) {
+                    window.toastManager.warning('Missing Information', 'Please enter your full name');
+                } else {
+                    alert('Please enter your full name');
+                }
+                form.fullName.focus();
                 return;
+            }
+
+            if (!data.email) {
+                if (window.toastManager) {
+                    window.toastManager.warning('Missing Information', 'Please enter your email address');
+                } else {
+                    alert('Please enter your email address');
+                }
+                form.email.focus();
+                return;
+            }
+
+            if (!data.email.includes('@') || !data.email.includes('.')) {
+                if (window.toastManager) {
+                    window.toastManager.error('Invalid Email', 'Please enter a valid email address');
+                } else {
+                    alert('Please enter a valid email address');
+                }
+                form.email.focus();
+                return;
+            }
+
+            if (!data.phone) {
+                if (window.toastManager) {
+                    window.toastManager.warning('Missing Information', 'Please enter your phone number');
+                } else {
+                    alert('Please enter your phone number');
+                }
+                form.phone.focus();
+                return;
+            }
+
+            // Show loading toast
+            let loadingToastId = null;
+            if (window.toastManager) {
+                loadingToastId = window.toastManager.show('help', 'Sending...', 'Please wait while we submit your request', 0);
             }
 
             try {
@@ -753,22 +793,63 @@ function initializeApp() {
 
                 const result = await res.json();
 
-                const feedback = document.getElementById("formFeedback");
-                if (feedback) {
-                     feedback.innerHTML = "❌ " + (result.error || "Request failed");
+                // Close loading toast
+                if (loadingToastId && window.toastManager) {
+                    window.toastManager.closeToast(loadingToastId);
                 }
-                feedback.innerHTML = "✅ Request sent successfully!";
-                form.reset();
+
+                if (res.ok) {
+                    // Success toast
+                    if (window.toastManager) {
+                        window.toastManager.success(
+                            '✓ Appointment Requested!',
+                            `Thank you ${data.fullName}! We'll contact you via ${data.phone} within 24 hours.`,
+                            6000
+                        );
+                    } else {
+                        alert('Request sent successfully!');
+                    }
+                    form.reset();
+                } else {
+                    // Error toast
+                    if (window.toastManager) {
+                        window.toastManager.error('Submission Failed', result.error || 'Unable to send request. Please try again.');
+                    } else {
+                        alert('Error: ' + (result.error || 'Request failed'));
+                    }
+                }
 
             } catch (err) {
                 console.error(err);
-                const feedback = document.getElementById("formFeedback");
-                if (feedback) {
-                    feedback.innerHTML = "❌ Error sending request. Please try again or contact us directly via WhatsApp.";
+                // Close loading toast if exists
+                if (loadingToastId && window.toastManager) {
+                    window.toastManager.closeToast(loadingToastId);
+                }
+
+                // Network error toast
+                if (window.toastManager) {
+                    window.toastManager.error(
+                        'Network Error',
+                        'Connection issue. Please try again or contact us directly via WhatsApp: +380 66 267 9920',
+                        8000
+                    );
+                } else {
+                    alert('Error sending request. Please try again or contact us directly via WhatsApp.');
                 }
             }
         });
     }
+
+    // Welcome toast message
+    setTimeout(() => {
+        if (window.toastManager) {
+            window.toastManager.help(
+                '✨ Welcome to GlobalLingua Academy!',
+                'Book a free consultation and start your language journey today. 🇪🇺',
+                5000
+            );
+        }
+    }, 1000);
 }
 
 function setLanguage(lang) {
