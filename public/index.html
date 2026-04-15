@@ -20,6 +20,20 @@
 </head>
 <body>
 
+    <!-- SVG FILTER (MUST BE FIRST IN BODY) -->
+<svg width="0" height="0" style="position:absolute">
+    <defs>
+        <filter id="blob">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+            <feColorMatrix in="blur" mode="matrix"
+                values="1 0 0 0 0  
+                        0 1 0 0 0  
+                        0 0 1 0 0  
+                        0 0 0 20 -10"/>
+        </filter>
+    </defs>
+</svg>
+
 <header id="header"></header>
 
 <main>
@@ -33,10 +47,88 @@
     <div id="youtube"></div>
 </main>
 
-<footer id="footer"></footer>
+<svg style="position:fixed; top:100vh"></svg>
+<footer id="footer">
 
-<!-- Toast Panel Container -->
+</footer>
+
+<style>body {
+    margin: 0;
+    background: #f5f7fa;
+    font-family: Arial, sans-serif;
+}
+
+/* FOOTER */
+.footer {
+    position: relative;
+    background: #1c357d;
+    color: #F5F7FA;
+    height: 200px;
+    overflow: visible;
+}
+
+.footer .bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    filter: url(#blob);
+}
+
+.footer .bubble {
+    position: absolute;
+    left: var(--position);
+    width: var(--size);
+    height: var(--size);
+    background: #1c357d;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation:
+        bubble-size var(--time) ease-in infinite var(--delay),
+        bubble-move var(--time) ease-in infinite var(--delay);
+}
+
+.footer .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+@keyframes bubble-size {
+    0%, 75% {
+        width: var(--size);
+        height: var(--size);
+    }
+    100% {
+        width: 0;
+        height: 0;
+    }
+}
+
+@keyframes bubble-move {
+    0% { bottom: -10rem; }
+    100% { bottom: 5rem; }
+}
+</style>
 <div id="toastPanel" class="toast-panel"></div>
+<script>
+const container = document.getElementById('bubbles');
+
+for (let i = 0; i < 128; i++) {
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+
+    bubble.style.setProperty('--size', `${2 + Math.random() * 4}rem`);
+    bubble.style.setProperty('--position', `${Math.random() * 100}%`);
+    bubble.style.setProperty('--time', `${2 + Math.random() * 2}s`);
+    bubble.style.setProperty('--delay', `${-Math.random() * 4}s`);
+
+    container.appendChild(bubble);
+}
+</script>
+<!-- Toast Panel Container -->
 
 <!-- AOS JS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
